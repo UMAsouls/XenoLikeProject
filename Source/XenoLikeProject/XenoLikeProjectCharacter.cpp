@@ -51,6 +51,8 @@ AXenoLikeProjectCharacter::AXenoLikeProjectCharacter()
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
 
 	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
+
+	XenoCharacterAttributeSet = CreateDefaultSubobject<UXenoCharacterAttributeSet>(TEXT("AttributeSet"));
 }
 
 UAbilitySystemComponent* AXenoLikeProjectCharacter::GetAbilitySystemComponent() const

@@ -2,6 +2,7 @@
 
 #pragma once
 
+#include "XenoCharacterAttributeSet.h"
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
 #include "Logging/LogMacros.h"
@@ -56,6 +57,9 @@ public:
 
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
 	UAbilitySystemComponent* AbilitySystem;
+
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadOnly, Category = "Abilities")
+	UXenoCharacterAttributeSet* XenoCharacterAttributeSet;
 
 	/** Constructor */
 	AXenoLikeProjectCharacter();	
