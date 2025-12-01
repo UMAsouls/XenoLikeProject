@@ -11,6 +11,7 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputActionValue.h"
 #include "XenoLikeProject.h"
+#include "AbilitySystemComponent.h"
 
 AXenoLikeProjectCharacter::AXenoLikeProjectCharacter()
 {
@@ -48,6 +49,13 @@ AXenoLikeProjectCharacter::AXenoLikeProjectCharacter()
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
+
+	AbilitySystem = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystem"));
+}
+
+UAbilitySystemComponent* AXenoLikeProjectCharacter::GetAbilitySystemComponent() const
+{
+	return AbilitySystem;
 }
 
 void AXenoLikeProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
