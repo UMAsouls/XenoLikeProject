@@ -36,16 +36,16 @@ AXenoLikeProjectCharacter::AXenoLikeProjectCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	GetCharacterMovement()->BrakingDecelerationFalling = 1500.0f;
 
-	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f;
-	CameraBoom->bUsePawnControlRotation = true;
+	//// Create a camera boom (pulls in towards the player if there is a collision)
+	//CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	//CameraBoom->SetupAttachment(RootComponent);
+	//CameraBoom->TargetArmLength = 400.0f;
+	//CameraBoom->bUsePawnControlRotation = true;
 
-	// Create a follow camera
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
-	FollowCamera->bUsePawnControlRotation = false;
+	//// Create a follow camera
+	//FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
+	//FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName);
+	//FollowCamera->bUsePawnControlRotation = false;
 
 	// Note: The skeletal mesh and anim blueprint references on the Mesh component (inherited from Character) 
 	// are set in the derived blueprint asset named ThirdPersonCharacter (to avoid direct content references in C++)
@@ -60,45 +60,45 @@ UAbilitySystemComponent* AXenoLikeProjectCharacter::GetAbilitySystemComponent() 
 	return AbilitySystem;
 }
 
-void AXenoLikeProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
-{
-	// Set up action bindings
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
-		
-		// Jumping
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
-		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+//void AXenoLikeProjectCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+//{
+//	// Set up action bindings
+//	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
+//		
+//		// Jumping
+//		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Started, this, &ACharacter::Jump);
+//		EnhancedInputComponent->BindAction(JumpAction, ETriggerEvent::Completed, this, &ACharacter::StopJumping);
+//
+//		// Moving
+//		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AXenoLikeProjectCharacter::Move);
+//		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AXenoLikeProjectCharacter::Look);
+//
+//		// Looking
+//		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AXenoLikeProjectCharacter::Look);
+//	}
+//	else
+//	{
+//		UE_LOG(LogXenoLikeProject, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
+//	}
+//}
 
-		// Moving
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AXenoLikeProjectCharacter::Move);
-		EnhancedInputComponent->BindAction(MouseLookAction, ETriggerEvent::Triggered, this, &AXenoLikeProjectCharacter::Look);
-
-		// Looking
-		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AXenoLikeProjectCharacter::Look);
-	}
-	else
-	{
-		UE_LOG(LogXenoLikeProject, Error, TEXT("'%s' Failed to find an Enhanced Input component! This template is built to use the Enhanced Input system. If you intend to use the legacy system, then you will need to update this C++ file."), *GetNameSafe(this));
-	}
-}
-
-void AXenoLikeProjectCharacter::Move(const FInputActionValue& Value)
-{
-	// input is a Vector2D
-	FVector2D MovementVector = Value.Get<FVector2D>();
-
-	// route the input
-	DoMove(MovementVector.X, MovementVector.Y);
-}
-
-void AXenoLikeProjectCharacter::Look(const FInputActionValue& Value)
-{
-	// input is a Vector2D
-	FVector2D LookAxisVector = Value.Get<FVector2D>();
-
-	// route the input
-	DoLook(LookAxisVector.X, LookAxisVector.Y);
-}
+//void AXenoLikeProjectCharacter::Move(const FInputActionValue& Value)
+//{
+//	// input is a Vector2D
+//	FVector2D MovementVector = Value.Get<FVector2D>();
+//
+//	// route the input
+//	DoMove(MovementVector.X, MovementVector.Y);
+//}
+//
+//void AXenoLikeProjectCharacter::Look(const FInputActionValue& Value)
+//{
+//	// input is a Vector2D
+//	FVector2D LookAxisVector = Value.Get<FVector2D>();
+//
+//	// route the input
+//	DoLook(LookAxisVector.X, LookAxisVector.Y);
+//}
 
 void AXenoLikeProjectCharacter::DoMove(float Right, float Forward)
 {
@@ -120,24 +120,24 @@ void AXenoLikeProjectCharacter::DoMove(float Right, float Forward)
 	}
 }
 
-void AXenoLikeProjectCharacter::DoLook(float Yaw, float Pitch)
-{
-	if (GetController() != nullptr)
-	{
-		// add yaw and pitch input to controller
-		AddControllerYawInput(Yaw);
-		AddControllerPitchInput(Pitch);
-	}
-}
+//void AXenoLikeProjectCharacter::DoLook(float Yaw, float Pitch)
+//{
+//	if (GetController() != nullptr)
+//	{
+//		// add yaw and pitch input to controller
+//		AddControllerYawInput(Yaw);
+//		AddControllerPitchInput(Pitch);
+//	}
+//}
 
-void AXenoLikeProjectCharacter::DoJumpStart()
-{
-	// signal the character to jump
-	Jump();
-}
-
-void AXenoLikeProjectCharacter::DoJumpEnd()
-{
-	// signal the character to stop jumping
-	StopJumping();
-}
+//void AXenoLikeProjectCharacter::DoJumpStart()
+//{
+//	// signal the character to jump
+//	Jump();
+//}
+//
+//void AXenoLikeProjectCharacter::DoJumpEnd()
+//{
+//	// signal the character to stop jumping
+//	StopJumping();
+//}

@@ -26,30 +26,33 @@ class AXenoLikeProjectCharacter : public ACharacter, public IAbilitySystemInterf
 	GENERATED_BODY()
 
 	/** Camera boom positioning the camera behind the character */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	USpringArmComponent* CameraBoom;
+	//要らない
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	//USpringArmComponent* CameraBoom;
 
 	/** Follow camera */
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
-	UCameraComponent* FollowCamera;
+	//いらない
+	//UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Components", meta = (AllowPrivateAccess = "true"))
+	//UCameraComponent* FollowCamera;
 	
 protected:
 
-	/** Jump Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* JumpAction;
+	////全部要らないinput
+	///** Jump Input Action */
+	//UPROPERTY(EditAnywhere, Category="Input")
+	//UInputAction* JumpAction;
 
-	/** Move Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MoveAction;
+	///** Move Input Action */
+	//UPROPERTY(EditAnywhere, Category="Input")
+	//UInputAction* MoveAction;
 
-	/** Look Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* LookAction;
+	///** Look Input Action */
+	//UPROPERTY(EditAnywhere, Category="Input")
+	//UInputAction* LookAction;
 
-	/** Mouse Look Input Action */
-	UPROPERTY(EditAnywhere, Category="Input")
-	UInputAction* MouseLookAction;
+	///** Mouse Look Input Action */
+	//UPROPERTY(EditAnywhere, Category="Input")
+	//UInputAction* MouseLookAction;
 
 public:
 
@@ -66,16 +69,18 @@ public:
 
 protected:
 
-	/** Initialize input action bindings */
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
+	///** Initialize input action bindings */
+	////要らない
+	//virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 protected:
 
-	/** Called for movement input */
-	void Move(const FInputActionValue& Value);
+	////iraina 変更が必要
+	///** Called for movement input */
+	//void Move(const FInputActionValue& Value);
 
-	/** Called for looking input */
-	void Look(const FInputActionValue& Value);
+	///** Called for looking input */
+	//void Look(const FInputActionValue& Value);
 
 public:
 
@@ -83,24 +88,26 @@ public:
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoMove(float Right, float Forward);
 
-	/** Handles look inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoLook(float Yaw, float Pitch);
+	////iranai
+	///** Handles look inputs from either controls or UI interfaces */
+	//UFUNCTION(BlueprintCallable, Category="Input")
+	//virtual void DoLook(float Yaw, float Pitch);
 
-	/** Handles jump pressed inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoJumpStart();
+	///** Handles jump pressed inputs from either controls or UI interfaces */
+	//UFUNCTION(BlueprintCallable, Category="Input")
+	//virtual void DoJumpStart();
 
-	/** Handles jump pressed inputs from either controls or UI interfaces */
-	UFUNCTION(BlueprintCallable, Category="Input")
-	virtual void DoJumpEnd();
+	///** Handles jump pressed inputs from either controls or UI interfaces */
+	//UFUNCTION(BlueprintCallable, Category="Input")
+	//virtual void DoJumpEnd();
 
 public:
 
-	/** Returns CameraBoom subobject **/
-	FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	////全部要らない
+	///** Returns CameraBoom subobject **/
+	//FORCEINLINE class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
 
-	/** Returns FollowCamera subobject **/
-	FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	///** Returns FollowCamera subobject **/
+	//FORCEINLINE class UCameraComponent* GetFollowCamera() const { return FollowCamera; }
 };
 
