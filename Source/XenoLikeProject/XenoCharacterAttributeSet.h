@@ -57,5 +57,7 @@ public:
 	FGameplayAttributeData GuardRate;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, GuardRate)
 
-
+	UPROPERTY()
+	FGameplayAttributeData IncomingDamage;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingDamage)
 };

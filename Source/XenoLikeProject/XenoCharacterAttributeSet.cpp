@@ -25,6 +25,14 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	TObjectPtr<AActor> TargetActor = Data.Target.GetAvatarActor();
 	TObjectPtr<AActor> SourceActor = Data.EffectSpec.GetContext().GetOriginalInstigator();
 
+	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
+	{
+		float damage = GetIncomingDamage();
+		SetHp(FMath::Clamp(GetHp()-damage, 0, GetMaxHp()));
+
+		SetIncomingDamage(0);
+	}
+
 	if(Data.EvaluatedData.Attribute == GetHpAttribute())
 	{
 		SetHp(FMath::Clamp(GetHp(), 0, GetMaxHp()));
