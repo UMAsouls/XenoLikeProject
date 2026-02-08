@@ -24,7 +24,6 @@ void UGEEC_Damage::Execute_Implementation(
 {
 	const FGameplayEffectSpec& spec = ExecutionParams.GetOwningSpec();
 
-	float Damage = spec.GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag("Effect.Damage"));
 	float Defence = 10.f;
 	float GuardRate = 0.3f;
 	float IncomingDamage = 0.f;
@@ -53,7 +52,7 @@ void UGEEC_Damage::Execute_Implementation(
 	float SkillReduce = 1.0f;
 
 	//ダメージ計算
-	float TrueDamage = Damage * (1 - ((Damage / 10 - Defence) * 0.01)) * guard * SkillReduce;
+	float TrueDamage = IncomingDamage * (1 - ((IncomingDamage / 10 - Defence) * 0.01)) * guard * SkillReduce;
 
 	//ダメージを運搬
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Additive, TrueDamage));
