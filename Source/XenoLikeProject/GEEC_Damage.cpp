@@ -55,5 +55,5 @@ void UGEEC_Damage::Execute_Implementation(
 	float TrueDamage = IncomingDamage * (1 - ((IncomingDamage / 10 - Defence) * 0.01)) * guard * SkillReduce;
 
 	//É_ÉÅÅ[ÉWÇâ^î¿
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Additive, TrueDamage));
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, TrueDamage));
 }
