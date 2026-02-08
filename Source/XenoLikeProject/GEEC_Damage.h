@@ -18,7 +18,7 @@ class XENOLIKEPROJECT_API UGEEC_Damage : public UGameplayEffectExecutionCalculat
 
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Defence)
 	DECLARE_ATTRIBUTE_CAPTUREDEF(GuardRate)
-	DECLARE_ATTRIBUTE_CAPTUREDEF(Hp)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(IncomingDamage)
 
 	virtual void Execute_Implementation(
 		const FGameplayEffectCustomExecutionParameters& ExecutionParams, 

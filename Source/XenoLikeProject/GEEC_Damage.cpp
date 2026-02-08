@@ -10,11 +10,11 @@ UGEEC_Damage::UGEEC_Damage()
 {
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Defence, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, GuardRate, Target, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Hp, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
 
 	RelevantAttributesToCapture.Add(DefenceDef);
 	RelevantAttributesToCapture.Add(GuardRateDef);
-	RelevantAttributesToCapture.Add(HpDef);
+	RelevantAttributesToCapture.Add(IncomingDamageDef);
 }
 
 void UGEEC_Damage::Execute_Implementation(
@@ -27,7 +27,7 @@ void UGEEC_Damage::Execute_Implementation(
 	float Damage = spec.GetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag("Effect.Damage"));
 	float Defence = 10.f;
 	float GuardRate = 0.3f;
-	float Hp = 100.f;
+	float IncomingDamage = 0.f;
 
 	const FGameplayTagContainer* SourceTags = spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = spec.CapturedTargetTags.GetAggregatedTags();
@@ -38,7 +38,7 @@ void UGEEC_Damage::Execute_Implementation(
 
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DefenceDef, EvaluationParameters, Defence);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GuardRateDef, EvaluationParameters, GuardRate);
-	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(HpDef, EvaluationParameters, Hp);
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(IncomingDamageDef, EvaluationParameters, IncomingDamage);
 
 	//ガードをguardRateの確率で発生させる
 	float guard = 0.4f;
@@ -56,5 +56,5 @@ void UGEEC_Damage::Execute_Implementation(
 	float TrueDamage = Damage * (1 - ((Damage / 10 - Defence) * 0.01)) * guard * SkillReduce;
 
 	//ダメージを運搬
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(HpProperty, EGameplayModOp::Additive, -TrueDamage));
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Additive, TrueDamage));
 }
