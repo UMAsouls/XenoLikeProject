@@ -13,7 +13,7 @@
     GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
     GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
-
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
 /**
  * 
  */
@@ -60,4 +60,7 @@ public:
 	UPROPERTY()
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingDamage)
+
+	UPROPERTY(BlueprintAssignable)
+	FHPUpdateDelegate OnHPUpdate;
 };

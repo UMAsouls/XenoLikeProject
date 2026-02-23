@@ -31,10 +31,14 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 		SetHp(FMath::Clamp(GetHp()-damage, 0, GetMaxHp()));
 
 		SetIncomingDamage(0);
+
+		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
 	}
 
 	if(Data.EvaluatedData.Attribute == GetHpAttribute())
 	{
 		SetHp(FMath::Clamp(GetHp(), 0, GetMaxHp()));
+
+		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
 	}
 }
