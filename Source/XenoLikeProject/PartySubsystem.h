@@ -29,7 +29,7 @@ public:
 		int Idx, FDrawWeaponDelegate DrawWeaponFunction
 	);
 private:
-	TArray<FDrawWeaponDelegate> DrawWeaponDelegates
+	TArray<FDrawWeaponDelegate> DrawWeaponDelegates =
 	{
 		FDrawWeaponDelegate(),
 		FDrawWeaponDelegate(),

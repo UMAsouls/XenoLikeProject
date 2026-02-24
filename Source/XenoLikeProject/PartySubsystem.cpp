@@ -17,6 +17,14 @@ void UPartySubsystem::DrawWeapon()
 {
 	for (const auto& delegate : DrawWeaponDelegates)
 	{
-		delegate.Execute();
+		delegate.ExecuteIfBound();
 	}
+}
+
+void UPartySubsystem::SetDelegates
+(
+	int Idx, FDrawWeaponDelegate DrawWeaponFunction
+)
+{
+	DrawWeaponDelegates[Idx] = DrawWeaponFunction;
 }
