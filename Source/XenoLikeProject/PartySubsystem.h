@@ -7,7 +7,8 @@
 #include "PartySubsystem.generated.h"
 
 
-DECLARE_DYNAMIC_DELEGATE(FDrawWeaponDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDrawWeaponDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLeaderChangeDelegate, AActor*, Leader);
 /**
  * 
  */
@@ -17,22 +18,35 @@ class XENOLIKEPROJECT_API UPartySubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
+	UPROPERTY(BlueprintReadOnly, Category = "PartySubsystem|Delegate")
+	FDrawWeaponDelegate DrawWeaponDelegate;
+
+	UPROPERTY(BlueprintReadOnly, Category = "PartySubsystem|Delegate")
+	FLeaderChangeDelegate LeaderChangeDelegate;
+
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
 
 	UFUNCTION(BlueprintCallable, Category="PartySubsystem")
 	void DrawWeapon();
 
-	UFUNCTION(BlueprintCallable, Category = "PartySubsystem")
-	void SetDelegates
-	(
-		int Idx, FDrawWeaponDelegate DrawWeaponFunction
-	);
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	void SetPartyMember(int Idx, int BeforeIdx, AActor* Member);
+
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	AActor* GetLeader();
+
+	void UpdateLeader();
+
 private:
-	TArray<FDrawWeaponDelegate> DrawWeaponDelegates =
+	const int LeaderIdx = 0;
+
+	UPROPERTY(VisibleDefaultsOnly, Category =  "PartySubsystem|Party")
+	TArray<TObjectPtr<AActor>> Party =
 	{
-		FDrawWeaponDelegate(),
-		FDrawWeaponDelegate(),
-		FDrawWeaponDelegate()
+		TObjectPtr<AActor>(), TObjectPtr<AActor>(), TObjectPtr<AActor>()
 	};
+
+	UPROPERTY(VisibleDefaultsOnly, Category = "PartySubsystem|Party")
+	TObjectPtr<AActor> Leader;
 };

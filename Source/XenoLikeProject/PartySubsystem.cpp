@@ -13,18 +13,30 @@ void UPartySubsystem::Deinitialize()
 
 }
 
-void UPartySubsystem::DrawWeapon()
+void UPartySubsystem::SetPartyMember(int Idx, int BeforeIdx, AActor* Member)
 {
-	for (const auto& delegate : DrawWeaponDelegates)
-	{
-		delegate.ExecuteIfBound();
-	}
+	if (Idx < 0 or Idx >= Party.Num()) return;
+
+	TObjectPtr<AActor> ChangeMember = Party[Idx]; ;
+	if (BeforeIdx >= 0 and BeforeIdx < Party.Num()) Party[BeforeIdx] = ChangeMember;
+
+	Party[Idx] = TObjectPtr<AActor>(Member);
 }
 
-void UPartySubsystem::SetDelegates
-(
-	int Idx, FDrawWeaponDelegate DrawWeaponFunction
-)
+AActor* UPartySubsystem::GetLeader()
 {
-	DrawWeaponDelegates[Idx] = DrawWeaponFunction;
+	return Leader;
+}
+
+void UPartySubsystem::UpdateLeader()
+{
+	if (Party[LeaderIdx] == Leader) return;
+
+	Leader = Party[LeaderIdx];
+	LeaderChangeDelegate.Broadcast(GetValid(Leader));
+}
+
+void UPartySubsystem::DrawWeapon()
+{
+	DrawWeaponDelegate.Broadcast();
 }
