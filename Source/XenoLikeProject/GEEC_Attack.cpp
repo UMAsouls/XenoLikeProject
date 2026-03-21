@@ -46,7 +46,7 @@ void UGEEC_Attack::Execute_Implementation(
 		CriticalBonus = 1.3f;
 	}
 
-	float Damage = Power * ((1 + rand.GetFraction()) * 0.5f) * 1.3f * CriticalBonus;
+	float Damage = Power * ((1 + rand.GetFraction()) * 0.1f)  * CriticalBonus;
 
 	//É_ÉÅÅ[ÉWÇâ^î¿
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Additive,Damage));
