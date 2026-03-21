@@ -27,6 +27,12 @@ public:
 	FText Description;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UArtDataAsset")
+	TObjectPtr<UTexture> Icon;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UArtDataAsset")
+	float RecastSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UArtDataAsset")
 	TSubclassOf<UGameplayAbility> ArtAbility;
 
 };

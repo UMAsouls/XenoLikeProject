@@ -15,6 +15,8 @@ UXenoCharacterAttributeSet::UXenoCharacterAttributeSet()
 	Speed = 100.f;
 	CriticalRate = 0.f;
 	GuardRate = 0.f;
+	ArtDamageBonus = 1.f;
+	DamageAdjuster = 1.f;
 
 }
 
@@ -27,11 +29,14 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
 	{
-		float damage = GetIncomingDamage();
+		float damage = GetIncomingDamage()*GetDamageAdjuster()*GetArtDamageBonus();
 		SetHp(FMath::Clamp(GetHp()-damage, 0, GetMaxHp()));
 
 		SetIncomingDamage(0);
+		SetDamageAdjuster(1);
+		SetArtDamageBonus(1);
 
+		OnDamage.Broadcast(damage);
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
 	}
 

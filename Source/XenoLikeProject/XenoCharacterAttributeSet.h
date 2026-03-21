@@ -14,6 +14,7 @@
     GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamageDelegate,float,Damage);
 /**
  * 
  */
@@ -58,9 +59,20 @@ public:
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, GuardRate)
 
 	UPROPERTY()
+	FGameplayAttributeData ArtDamageBonus;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, ArtDamageBonus)
+
+	UPROPERTY()
+	FGameplayAttributeData DamageAdjuster;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, DamageAdjuster)
+
+	UPROPERTY()
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingDamage)
 
 	UPROPERTY(BlueprintAssignable)
 	FHPUpdateDelegate OnHPUpdate;
+
+	UPROPERTY(BlueprintAssignable)
+	FDamageDelegate OnDamage;
 };
