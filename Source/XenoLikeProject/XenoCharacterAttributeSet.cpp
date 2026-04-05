@@ -38,6 +38,7 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 
 		OnDamage.Broadcast(damage);
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
+		if (GetHp() <= 0.f) OnDeath.Broadcast();
 	}
 
 	if(Data.EvaluatedData.Attribute == GetHpAttribute())

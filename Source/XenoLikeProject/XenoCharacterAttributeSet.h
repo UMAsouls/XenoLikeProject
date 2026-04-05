@@ -15,6 +15,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamageDelegate,float,Damage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDeathDelegate);
 /**
  * 
  */
@@ -75,4 +76,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FDamageDelegate OnDamage;
+
+	UPROPERTY(BlueprintAssignable)
+	FDeathDelegate OnDeath;
 };
