@@ -22,3 +22,11 @@ void UBattleSubsystem::BattleEnd()
 {
 	IsBattle = false;
 }
+
+void UBattleSubsystem::BattleWin() {
+	BattleEnd();
+}
+
+void UBattleSubsystem::BattleLose() {
+	BattleEnd();
+}

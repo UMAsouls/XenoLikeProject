@@ -22,8 +22,13 @@ public:
 	void BattleStart();
 
 	UFUNCTION(BlueprintCallable, Category = "BattleSubsystem")
-	void BattleEnd();
+	void BattleWin();
+	
+	UFUNCTION(BlueprintCallable, Category = "BattleSubsystem")
+	void BattleLose();
 
 private:
+	void BattleEnd();
+
 	bool IsBattle = false;
 };
