@@ -9,6 +9,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDrawWeaponDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLeaderChangeDelegate, AActor*, Leader);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPartyExtincutionDelegate);
 /**
  * 
  */
@@ -18,11 +19,14 @@ class XENOLIKEPROJECT_API UPartySubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintReadOnly, Category = "PartySubsystem|Delegate")
+	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
 	FDrawWeaponDelegate DrawWeaponDelegate;
 
-	UPROPERTY(BlueprintReadOnly, Category = "PartySubsystem|Delegate")
+	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
 	FLeaderChangeDelegate LeaderChangeDelegate;
+
+	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
+	FPartyExtincutionDelegate PartyExtincutionDelegate;
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 	virtual void Deinitialize() override;
@@ -31,12 +35,31 @@ public:
 	void DrawWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	void SetPartyMember(int Idx, int BeforeIdx, AActor* Member);
+	void SetPartyMember(int Idx, AActor* Member);
+
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	void SwapPartyMember(int Idx1, int Idx2);
+
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	AActor* GetPartyMember(int Idx);
+
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	TArray<AActor*> GetPartyMembers();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
 	AActor* GetLeader();
 
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	int GetPartyMemberCount();
+
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	void AddDeath(AActor* Member);
+
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	void SubtractDeath(AActor* Member);
+
 	void UpdateLeader();
+	void UpdatePartyMemberCount();
 
 private:
 	const int LeaderIdx = 0;
@@ -49,4 +72,9 @@ private:
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "PartySubsystem|Party")
 	TObjectPtr<AActor> Leader;
+
+	int DeathCount = 0;
+	int PartyMemberCount = 0;
+	float PartyGage = 0;
+	bool LeaderDeath = false;
 };
