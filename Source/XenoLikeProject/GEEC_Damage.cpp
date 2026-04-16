@@ -4,7 +4,7 @@
 #include "GEEC_Damage.h"
 #include "XenoCharacterAttributeSet.h"
 #include "AbilitySystemComponent.h"
-#include "Math\RandomStream.h"
+#include "Math/RandomStream.h"
 
 UGEEC_Damage::UGEEC_Damage() 
 {
