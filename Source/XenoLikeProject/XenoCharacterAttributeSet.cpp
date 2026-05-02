@@ -27,6 +27,18 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	TObjectPtr<AActor> TargetActor = Data.Target.GetAvatarActor();
 	TObjectPtr<AActor> SourceActor = Data.EffectSpec.GetContext().GetOriginalInstigator();
 
+	if (Data.EvaluatedData.Attribute == GetMissAttribute()) 
+	{
+		SetMiss(0);
+		OnAttackMissed.Broadcast();
+	}
+
+	if (Data.EvaluatedData.Attribute == GetHitAttribute())
+	{
+		OnAttackHit.Broadcast(GetHit());
+		SetHit(0);
+	}
+
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
 	{
 		float damage = GetIncomingDamage()*GetDamageAdjuster()*GetArtDamageBonus();
