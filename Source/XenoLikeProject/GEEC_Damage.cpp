@@ -11,10 +11,14 @@ UGEEC_Damage::UGEEC_Damage()
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Defence, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, GuardRate, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Miss, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Hit, Source, true);
 
 	RelevantAttributesToCapture.Add(DefenceDef);
 	RelevantAttributesToCapture.Add(GuardRateDef);
 	RelevantAttributesToCapture.Add(IncomingDamageDef);
+	RelevantAttributesToCapture.Add(MissDef);
+	RelevantAttributesToCapture.Add(HitDef);
 }
 
 void UGEEC_Damage::Execute_Implementation(
@@ -43,8 +47,17 @@ void UGEEC_Damage::Execute_Implementation(
 	float guard = 0.4f;
 	FRandomStream rand;
 	rand.GenerateNewSeed();
-	if (GuardRate < rand.GetFraction()) {
+	if (GuardRate < rand.GetFraction()) 
+	{
 		guard = 1.f;
+	}
+
+	//回避処理
+	//後でちゃんと処理を書く
+	if (false) 
+	{
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(MissProperty, EGameplayModOp::Override, 1.f));
+		return;
 	}
 
 	//スキルとかでダメージが減る割合
@@ -56,4 +69,5 @@ void UGEEC_Damage::Execute_Implementation(
 
 	//ダメージを運搬
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, TrueDamage));
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(HitProperty, EGameplayModOp::Override, TrueDamage));
 }

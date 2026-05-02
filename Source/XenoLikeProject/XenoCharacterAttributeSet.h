@@ -15,7 +15,7 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamageDelegate,float,Damage);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDeathDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoParamDelegate);
 /**
  * 
  */
@@ -71,6 +71,14 @@ public:
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingDamage)
 
+	UPROPERTY()
+	FGameplayAttributeData Miss;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, Miss)
+
+	UPROPERTY()
+	FGameplayAttributeData Hit;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, Hit)
+
 	UPROPERTY(BlueprintAssignable)
 	FHPUpdateDelegate OnHPUpdate;
 
@@ -78,5 +86,11 @@ public:
 	FDamageDelegate OnDamage;
 
 	UPROPERTY(BlueprintAssignable)
-	FDeathDelegate OnDeath;
+	FNoParamDelegate OnDeath;
+
+	UPROPERTY(BlueprintAssignable)
+	FNoParamDelegate OnAttackMissed;
+
+	UPROPERTY(BlueprintAssignable)
+	FDamageDelegate OnAttackHit;
 };
