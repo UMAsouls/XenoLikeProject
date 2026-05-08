@@ -27,6 +27,14 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	TObjectPtr<AActor> TargetActor = Data.Target.GetAvatarActor();
 	TObjectPtr<AActor> SourceActor = Data.EffectSpec.GetContext().GetOriginalInstigator();
 
+	if (Data.EvaluatedData.Attribute == GetTalentArtGageAttribute()) 
+	{
+		if (GetTalentArtGage() >= 1.0f) {
+			OnTalentArtRecastComplete.Broadcast();
+		}
+		SetTalentArtGage(FMath::Clamp(GetTalentArtGage(), 0, 1));
+	}
+
 	if (Data.EvaluatedData.Attribute == GetMissAttribute()) 
 	{
 		SetMiss(0);

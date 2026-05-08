@@ -59,6 +59,11 @@ public:
 	FGameplayAttributeData GuardRate;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, GuardRate)
 
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayAttributeData TalentArtGage;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, TalentArtGage)
+	
+	//MetaAttribute
 	UPROPERTY()
 	FGameplayAttributeData ArtDamageBonus;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, ArtDamageBonus)
@@ -90,6 +95,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FNoParamDelegate OnAttackMissed;
+
+	UPROPERTY(BlueprintAssignable)
+	FNoParamDelegate OnTalentArtRecastComplete;
 
 	UPROPERTY(BlueprintAssignable)
 	FDamageDelegate OnAttackHit;
