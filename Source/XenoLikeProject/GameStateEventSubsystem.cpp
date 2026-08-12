@@ -6,6 +6,11 @@
 
 void UGameStateEventSubsystem::Publish(EGamePhaseStateEnum StatePhaseEnum) 
 {
+
+	if (!Listeners.Contains(StatePhaseEnum)) {
+		return;
+	}
+
 	for (TObjectPtr<AActor> actor : Listeners[StatePhaseEnum]) 
 	{
 		if(actor->Implements<UStateListener>()) 
