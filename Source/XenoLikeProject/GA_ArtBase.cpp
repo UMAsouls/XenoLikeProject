@@ -2,6 +2,7 @@
 
 
 #include "GA_ArtBase.h"
+#include <string>
 
 const FGameplayTagContainer* UGA_ArtBase::GetCooldownTags() const
 {
@@ -27,16 +28,29 @@ void UGA_ArtBase::ApplyCooldown(
 	{
 		if (GEngine)
 		{
+			FString s = FString::SanitizeFloat(CooldownDuration.GetValueAtLevel(GetAbilityLevel()));
 			GEngine->AddOnScreenDebugMessage(
 				-1,           // 一意のキー（-1で常に新しいメッセージとして表示）
 				5.0f,         // 表示時間（秒）
 				FColor::Red,  // 文字列の色
-				TEXT("ApplyCooldown") // 表示するテキスト
+				s // 表示するテキスト
 			);
+
+			
 		}
 		FGameplayEffectSpecHandle SpecHandle = MakeOutgoingGameplayEffectSpec(CooldownGE->GetClass(), GetAbilityLevel());
 		SpecHandle.Data.Get()->DynamicGrantedTags.AppendTags(CooldownTags);
 		SpecHandle.Data.Get()->SetSetByCallerMagnitude(FGameplayTag::RequestGameplayTag(FName("Data.Cooldown")), CooldownDuration.GetValueAtLevel(GetAbilityLevel()));
 		ApplyGameplayEffectSpecToOwner(Handle, ActorInfo, ActivationInfo, SpecHandle);
+
+		if (GEngine) {
+			FString t = SpecHandle.Data.Get()->DynamicGrantedTags.GetByIndex(0).GetTagName().ToString();
+			GEngine->AddOnScreenDebugMessage(
+				-1,           // 一意のキー（-1で常に新しいメッセージとして表示）
+				5.0f,         // 表示時間（秒）
+				FColor::Red,  // 文字列の色
+				t // 表示するテキスト
+			);
+		}
 	}
 }
