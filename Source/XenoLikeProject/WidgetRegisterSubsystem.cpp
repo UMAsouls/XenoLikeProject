@@ -19,12 +19,22 @@ UUserWidget* UWidgetRegisterSubsystem::GetWidget(TSubclassOf<UUserWidget> Widget
     return nullptr;
 }
 
+void UWidgetRegisterSubsystem::ResetWidget()
+{
+    for (auto It = WidgetMap.CreateIterator(); It; ++It ) 
+    {
+        auto widget = (*It).Value;
+        widget->RemoveFromParent();
+    }
+    WidgetMap.Reset();
+}
+
 void UWidgetRegisterSubsystem::RemoveWidget(TSubclassOf<UUserWidget> WidgetClass)
 {
     if (const TObjectPtr<UUserWidget>* Found = WidgetMap.Find(WidgetClass)) 
     {
         WidgetMap[WidgetClass]->RemoveFromParent();
-        WidgetMap[WidgetClass] = nullptr;
+        WidgetMap[WidgetClass] = nullptr; 
     }
 }
 
