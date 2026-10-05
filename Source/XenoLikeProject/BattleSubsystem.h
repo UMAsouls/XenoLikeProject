@@ -6,6 +6,8 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "BattleSubsystem.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBattleEnd);
+
 /**
  * 
  */
@@ -26,9 +28,14 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "BattleSubsystem")
 	void BattleLose();
+	
+	UFUNCTION(BlueprintCallable, Category = "BattleSubsystem")
+	void BattleEnd();
+	
+	UPROPERTY(BlueprintAssignable, Category = "BattleSubsystem")
+	FOnBattleEnd OnBattleEnd;
 
 private:
-	void BattleEnd();
-
+	
 	bool IsBattle = false;
 };

@@ -20,6 +20,7 @@ void UBattleSubsystem::BattleStart()
 
 void UBattleSubsystem::BattleEnd()
 {
+	OnBattleEnd.Broadcast();
 	IsBattle = false;
 }
 
