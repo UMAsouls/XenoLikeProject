@@ -5,6 +5,7 @@
 #include "AbilitySystemComponent.h"
 #include "CoreMinimal.h"
 #include "AttributeSet.h"
+#include "Public/StatusStruct.h"
 #include "XenoCharacterAttributeSet.generated.h"
 
 #define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
@@ -26,6 +27,9 @@ class XENOLIKEPROJECT_API UXenoCharacterAttributeSet : public UAttributeSet
 public:
 	UXenoCharacterAttributeSet();
 	virtual void PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)override;
+	
+	UFUNCTION(BlueprintCallable, Category="DataSet")
+	virtual void SetStatus(FStatusStruct Status);
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayAttributeData Hp;

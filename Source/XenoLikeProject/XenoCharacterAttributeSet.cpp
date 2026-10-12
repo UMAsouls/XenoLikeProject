@@ -20,6 +20,19 @@ UXenoCharacterAttributeSet::UXenoCharacterAttributeSet()
 
 }
 
+void UXenoCharacterAttributeSet::SetStatus(FStatusStruct Status)
+{
+	MaxHp = Status.HP;
+	Hp = Status.HP;
+	Power = Status.Power;
+	Defence = Status.Defence;
+	HealPower = Status.HealPower;
+	Speed = Status.Speed;
+	CriticalRate = Status.CriticalRate;
+	GuardRate = Status.GuardRate;
+
+}
+
 void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
