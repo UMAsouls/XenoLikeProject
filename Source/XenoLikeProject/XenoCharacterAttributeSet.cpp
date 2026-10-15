@@ -73,6 +73,17 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
 		if (GetHp() <= 0.f) OnDeath.Broadcast();
 	}
+	
+	if (Data.EvaluatedData.Attribute == GetIncomingHealAttribute())
+	{
+		float heal = GetIncomingHeal()*GetArtHealBonus();
+		SetHp(FMath::Clamp(GetHp()+heal, 0, GetMaxHp()));
+		
+		SetIncomingHeal(0);
+		SetArtHealBonus(1);
+		
+		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
+	}
 
 	if(Data.EvaluatedData.Attribute == GetHpAttribute())
 	{

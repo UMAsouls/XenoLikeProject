@@ -79,6 +79,14 @@ public:
 	UPROPERTY()
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingDamage)
+	
+	UPROPERTY()
+	FGameplayAttributeData ArtHealBonus;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, ArtHealBonus)
+	
+	UPROPERTY()
+	FGameplayAttributeData IncomingHeal;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingHeal)
 
 	UPROPERTY()
 	FGameplayAttributeData Miss;
