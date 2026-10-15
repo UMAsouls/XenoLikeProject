@@ -16,6 +16,7 @@ UXenoCharacterAttributeSet::UXenoCharacterAttributeSet()
 	CriticalRate = 0.f;
 	GuardRate = 0.f;
 	ArtDamageBonus = 1.f;
+	ArtHealBonus = 1.f;
 	DamageAdjuster = 1.f;
 
 }
