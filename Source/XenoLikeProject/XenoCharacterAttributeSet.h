@@ -67,6 +67,14 @@ public:
 	FGameplayAttributeData TalentArtGage;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, TalentArtGage)
 	
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayAttributeData AutoAttackSpeed;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, AutoAttackSpeed)
+	
+	UPROPERTY(BlueprintReadOnly)
+	FGameplayAttributeData AutoAttackCooldownTime;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, AutoAttackCooldownTime)
+	
 	//MetaAttribute
 	UPROPERTY()
 	FGameplayAttributeData ArtDamageBonus;

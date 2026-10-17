@@ -18,6 +18,9 @@ UXenoCharacterAttributeSet::UXenoCharacterAttributeSet()
 	ArtDamageBonus = 1.f;
 	ArtHealBonus = 1.f;
 	DamageAdjuster = 1.f;
+	
+	AutoAttackCooldownTime = 0.5f;
+	AutoAttackSpeed = 1.0f;
 
 }
 
