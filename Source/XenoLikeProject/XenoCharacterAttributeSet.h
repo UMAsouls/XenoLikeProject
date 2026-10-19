@@ -68,6 +68,10 @@ public:
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, TalentArtGage)
 	
 	UPROPERTY(BlueprintReadOnly)
+	FGameplayAttributeData TalentArtGageMax;
+	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, TalentArtGageMax)
+	
+	UPROPERTY(BlueprintReadOnly)
 	FGameplayAttributeData AutoAttackSpeed;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, AutoAttackSpeed)
 	

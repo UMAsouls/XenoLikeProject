@@ -21,6 +21,9 @@ UXenoCharacterAttributeSet::UXenoCharacterAttributeSet()
 	
 	AutoAttackCooldownTime = 0.5f;
 	AutoAttackSpeed = 1.0f;
+	
+	TalentArtGage = 0.0f;
+	TalentArtGageMax = 1.0f;
 
 }
 
@@ -43,14 +46,6 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 
 	TObjectPtr<AActor> TargetActor = Data.Target.GetAvatarActor();
 	TObjectPtr<AActor> SourceActor = Data.EffectSpec.GetContext().GetOriginalInstigator();
-
-	if (Data.EvaluatedData.Attribute == GetTalentArtGageAttribute()) 
-	{
-		if (GetTalentArtGage() >= 1.0f) {
-			OnTalentArtRecastComplete.Broadcast();
-		}
-		SetTalentArtGage(FMath::Clamp(GetTalentArtGage(), 0, 1));
-	}
 
 	if (Data.EvaluatedData.Attribute == GetMissAttribute()) 
 	{
@@ -94,5 +89,11 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 		SetHp(FMath::Clamp(GetHp(), 0, GetMaxHp()));
 
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
+	}
+	
+	if (Data.EvaluatedData.Attribute == GetTalentArtGageAttribute())
+	{
+		
+		SetTalentArtGage(FMath::Clamp(GetTalentArtGage(), 0, GetTalentArtGageMax()));
 	}
 }
