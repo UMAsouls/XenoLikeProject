@@ -93,7 +93,6 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	
 	if (Data.EvaluatedData.Attribute == GetTalentArtGageAttribute())
 	{
-		
 		SetTalentArtGage(FMath::Clamp(GetTalentArtGage(), 0, GetTalentArtGageMax()));
 	}
 }
