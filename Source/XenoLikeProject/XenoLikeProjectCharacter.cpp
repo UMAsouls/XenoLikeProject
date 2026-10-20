@@ -32,6 +32,14 @@ UAbilitySystemComponent* AXenoLikeProjectCharacter::GetAbilitySystemComponent() 
 	return AbilitySystem;
 }
 
+void AXenoLikeProjectCharacter::GetOwnedGameplayTags(FGameplayTagContainer& TagContainer) const
+{
+	if (AbilitySystem)
+	{
+		AbilitySystem->GetOwnedGameplayTags(TagContainer);
+	}
+}
+
 void AXenoLikeProjectCharacter::DoMove(float Right, float Forward)
 {
 	if (GetController() != nullptr)

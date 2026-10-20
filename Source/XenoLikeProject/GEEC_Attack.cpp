@@ -10,10 +10,23 @@ UGEEC_Attack::UGEEC_Attack()
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Power, Source, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, CriticalRate, Source, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
+	
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Defence, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, GuardRate, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Miss, Source, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Hit, Source, true);
 
 	RelevantAttributesToCapture.Add(PowerDef);
 	RelevantAttributesToCapture.Add(CriticalRateDef);
 	RelevantAttributesToCapture.Add(IncomingDamageDef);
+	
+	RelevantAttributesToCapture.Add(DefenceDef);
+	RelevantAttributesToCapture.Add(GuardRateDef);
+	RelevantAttributesToCapture.Add(IncomingDamageDef);
+	RelevantAttributesToCapture.Add(MissDef);
+	RelevantAttributesToCapture.Add(HitDef);
+	
 }
 
 void UGEEC_Attack::Execute_Implementation(
@@ -26,6 +39,9 @@ void UGEEC_Attack::Execute_Implementation(
 	float Power = 10.f;
 	float CriticalRate = 0.3f;
 	float IncomingDamage = 0.f;
+	
+	float Defence = 10.f;
+	float GuardRate = 0.3f;
 
 	const FGameplayTagContainer* SourceTags = spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = spec.CapturedTargetTags.GetAggregatedTags();
@@ -37,6 +53,9 @@ void UGEEC_Attack::Execute_Implementation(
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(PowerDef, EvaluationParameters, Power);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CriticalRateDef, EvaluationParameters, CriticalRate);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(IncomingDamageDef, EvaluationParameters, IncomingDamage);
+	
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DefenceDef, EvaluationParameters, Defence);
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GuardRateDef, EvaluationParameters, GuardRate);
 
 	FRandomStream rand;
 	rand.GenerateNewSeed();
@@ -45,9 +64,42 @@ void UGEEC_Attack::Execute_Implementation(
 	if (CriticalRate >= rand.GetFraction()) {
 		CriticalBonus = 1.3f;
 	}
+	
+	//ï¿½Kï¿½[ï¿½hï¿½ï¿½guardRateï¿½ÌŠmï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	float guard = 0.4f;
+	if (GuardRate < rand.GetFraction()) 
+	{
+		guard = 1.f;
+	}
 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Æï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	if (false) 
+	{
+		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(MissProperty, EGameplayModOp::Override, 1.f));
+		return;
+	}
+
+	//ï¿½Xï¿½Lï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Åƒ_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½éŠ„ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	float SkillReduce = 1.0f;
+	
 	float Damage = Power * ((1 + rand.GetFraction()) * 0.1f)  * CriticalBonus;
 
-	//ƒ_ƒ[ƒW‚ð‰^”À
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Additive,Damage));
+	//ï¿½_ï¿½ï¿½ï¿½[ï¿½Wï¿½vï¿½Z
+	float TrueDamage = Damage * (1 - ((Damage / 10 - Defence) * 0.01)) * guard * SkillReduce;
+
+	//ï¿½_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½^ï¿½ï¿½
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, TrueDamage));
+	
+	// Hité€šçŸ¥ç”¨
+	if (UAbilitySystemComponent* SourceASC =
+		ExecutionParams.GetSourceAbilitySystemComponent())
+	{
+		if (const UXenoCharacterAttributeSet* SourceSet =
+				SourceASC->GetSet<UXenoCharacterAttributeSet>())
+		{
+			SourceSet->OnAttackHit.Broadcast(TrueDamage);
+		}
+	}
 }

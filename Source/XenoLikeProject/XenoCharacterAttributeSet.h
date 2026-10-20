@@ -15,7 +15,8 @@
     GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FDamageDelegate,float,Damage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDamageDelegate, float,Damage, AActor*,SourceActor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttackHitDelegate, float,Damage);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoParamDelegate);
 /**
  * 
@@ -124,5 +125,5 @@ public:
 	FNoParamDelegate OnTalentArtRecastComplete;
 
 	UPROPERTY(BlueprintAssignable)
-	FDamageDelegate OnAttackHit;
+	FAttackHitDelegate OnAttackHit;
 };

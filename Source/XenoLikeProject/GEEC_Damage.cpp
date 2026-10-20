@@ -11,7 +11,7 @@ UGEEC_Damage::UGEEC_Damage()
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Defence, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, GuardRate, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Miss, Target, true);
+	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Miss, Source, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Hit, Source, true);
 
 	RelevantAttributesToCapture.Add(DefenceDef);
@@ -43,7 +43,7 @@ void UGEEC_Damage::Execute_Implementation(
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GuardRateDef, EvaluationParameters, GuardRate);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(IncomingDamageDef, EvaluationParameters, IncomingDamage);
 
-	//ƒK[ƒh‚ğguardRate‚ÌŠm—¦‚Å”­¶‚³‚¹‚é
+	//ï¿½Kï¿½[ï¿½hï¿½ï¿½guardRateï¿½ÌŠmï¿½ï¿½ï¿½Å”ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	float guard = 0.4f;
 	FRandomStream rand;
 	rand.GenerateNewSeed();
@@ -52,22 +52,22 @@ void UGEEC_Damage::Execute_Implementation(
 		guard = 1.f;
 	}
 
-	//‰ñ”ğˆ—
-	//Œã‚Å‚¿‚á‚ñ‚Æˆ—‚ğ‘‚­
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//ï¿½ï¿½Å‚ï¿½ï¿½ï¿½ï¿½Æï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	if (false) 
 	{
 		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(MissProperty, EGameplayModOp::Override, 1.f));
 		return;
 	}
 
-	//ƒXƒLƒ‹‚Æ‚©‚Åƒ_ƒ[ƒW‚ªŒ¸‚éŠ„‡
-	//À‘•Œã‰ñ‚µ
+	//ï¿½Xï¿½Lï¿½ï¿½ï¿½Æ‚ï¿½ï¿½Åƒ_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½ï¿½ï¿½éŠ„ï¿½ï¿½
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	float SkillReduce = 1.0f;
 
-	//ƒ_ƒ[ƒWŒvZ
+	//ï¿½_ï¿½ï¿½ï¿½[ï¿½Wï¿½vï¿½Z
 	float TrueDamage = IncomingDamage * (1 - ((IncomingDamage / 10 - Defence) * 0.01)) * guard * SkillReduce;
 
-	//ƒ_ƒ[ƒW‚ğ‰^”À
+	//ï¿½_ï¿½ï¿½ï¿½[ï¿½Wï¿½ï¿½ï¿½^ï¿½ï¿½
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, TrueDamage));
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(HitProperty, EGameplayModOp::Override, TrueDamage));
 }

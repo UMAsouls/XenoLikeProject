@@ -19,6 +19,12 @@ class XENOLIKEPROJECT_API UGEEC_Attack : public UGameplayEffectExecutionCalculat
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Power)
 	DECLARE_ATTRIBUTE_CAPTUREDEF(CriticalRate)
 	DECLARE_ATTRIBUTE_CAPTUREDEF(IncomingDamage)
+	
+	DECLARE_ATTRIBUTE_CAPTUREDEF(Defence)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(GuardRate)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(Miss)
+	DECLARE_ATTRIBUTE_CAPTUREDEF(Hit)
+	
 
 	virtual void Execute_Implementation(
 		const FGameplayEffectCustomExecutionParameters& ExecutionParams,

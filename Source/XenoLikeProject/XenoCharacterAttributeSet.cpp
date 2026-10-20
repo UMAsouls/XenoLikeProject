@@ -61,6 +61,7 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
 	{
+		
 		float damage = GetIncomingDamage()*GetDamageAdjuster()*GetArtDamageBonus();
 		SetHp(FMath::Clamp(GetHp()-damage, 0, GetMaxHp()));
 
@@ -68,7 +69,7 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 		SetDamageAdjuster(1);
 		SetArtDamageBonus(1);
 
-		OnDamage.Broadcast(damage);
+		OnDamage.Broadcast(damage, SourceActor);
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
 		if (GetHp() <= 0.f) OnDeath.Broadcast();
 	}
