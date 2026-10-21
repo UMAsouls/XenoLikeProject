@@ -4,6 +4,7 @@
 #include "GEEC_Attack.h"
 #include "XenoCharacterAttributeSet.h"
 #include "AbilitySystemComponent.h"
+#include "Tests/AutomationEditorCommon.h"
 
 UGEEC_Attack::UGEEC_Attack()
 {
@@ -42,6 +43,8 @@ void UGEEC_Attack::Execute_Implementation(
 	
 	float Defence = 10.f;
 	float GuardRate = 0.3f;
+	
+	float ArtDamageBonus = 1.0f;
 
 	const FGameplayTagContainer* SourceTags = spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = spec.CapturedTargetTags.GetAggregatedTags();
@@ -49,6 +52,9 @@ void UGEEC_Attack::Execute_Implementation(
 	FAggregatorEvaluateParameters EvaluationParameters;
 	EvaluationParameters.SourceTags = SourceTags;
 	EvaluationParameters.TargetTags = TargetTags;
+	
+	FGameplayTag ArtBonusTag = FGameplayTag::RequestGameplayTag(FName("Effect.Damage.ArtBonus"));
+	ArtDamageBonus = spec.GetSetByCallerMagnitude(ArtBonusTag, false, 1.0f);
 
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(PowerDef, EvaluationParameters, Power);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CriticalRateDef, EvaluationParameters, CriticalRate);
@@ -84,13 +90,13 @@ void UGEEC_Attack::Execute_Implementation(
 	//�������
 	float SkillReduce = 1.0f;
 	
-	float Damage = Power * ((1 + rand.GetFraction()) * 0.1f)  * CriticalBonus;
-
-	//�_���[�W�v�Z
-	float TrueDamage = Damage * (1 - ((Damage / 10 - Defence) * 0.01)) * guard * SkillReduce;
+	float Damage = FMath::Max(Power-Defence, 1.0f) * FMath::Max(Power/30.f,1.0f)
+		* (1 + rand.GetFraction()*0.5f)  
+		* CriticalBonus * ArtDamageBonus 
+		* guard * SkillReduce;
 
 	//�_���[�W���^��
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, TrueDamage));
+	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, Damage));
 	
 	// Hit通知用
 	if (UAbilitySystemComponent* SourceASC =
@@ -99,7 +105,7 @@ void UGEEC_Attack::Execute_Implementation(
 		if (const UXenoCharacterAttributeSet* SourceSet =
 				SourceASC->GetSet<UXenoCharacterAttributeSet>())
 		{
-			SourceSet->OnAttackHit.Broadcast(TrueDamage);
+			SourceSet->OnAttackHit.Broadcast(Damage);
 		}
 	}
 }

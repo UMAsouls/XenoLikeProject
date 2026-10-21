@@ -40,6 +40,11 @@ void UXenoCharacterAttributeSet::SetStatus(FStatusStruct Status)
 
 }
 
+float UXenoCharacterAttributeSet::CalculateDamage() const
+{
+	return GetIncomingDamage()*GetDamageAdjuster()*GetArtDamageBonus();
+}
+
 void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -62,7 +67,7 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
 	{
 		
-		float damage = GetIncomingDamage()*GetDamageAdjuster()*GetArtDamageBonus();
+		float damage = CalculateDamage();
 		SetHp(FMath::Clamp(GetHp()-damage, 0, GetMaxHp()));
 
 		SetIncomingDamage(0);

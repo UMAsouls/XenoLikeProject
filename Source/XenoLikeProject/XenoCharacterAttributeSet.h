@@ -31,6 +31,8 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="DataSet")
 	virtual void SetStatus(FStatusStruct Status);
+	
+	virtual float CalculateDamage() const;
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayAttributeData Hp;
