@@ -16,7 +16,8 @@
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDamageDelegate, float,Damage, AActor*,SourceActor);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttackHitDelegate, float,Damage);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttackMissDelegate,  FGameplayTagContainer, ResultTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttackHitDelegate, float,Damage, FGameplayTagContainer, ResultTag);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoParamDelegate);
 /**
  * 
@@ -31,8 +32,6 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category="DataSet")
 	virtual void SetStatus(FStatusStruct Status);
-	
-	virtual float CalculateDamage() const;
 
 	UPROPERTY(BlueprintReadOnly)
 	FGameplayAttributeData Hp;
@@ -84,14 +83,6 @@ public:
 	
 	//MetaAttribute
 	UPROPERTY()
-	FGameplayAttributeData ArtDamageBonus;
-	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, ArtDamageBonus)
-
-	UPROPERTY()
-	FGameplayAttributeData DamageAdjuster;
-	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, DamageAdjuster)
-
-	UPROPERTY()
 	FGameplayAttributeData IncomingDamage;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingDamage)
 	
@@ -103,14 +94,6 @@ public:
 	FGameplayAttributeData IncomingHeal;
 	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, IncomingHeal)
 
-	UPROPERTY()
-	FGameplayAttributeData Miss;
-	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, Miss)
-
-	UPROPERTY()
-	FGameplayAttributeData Hit;
-	ATTRIBUTE_ACCESSORS(UXenoCharacterAttributeSet, Hit)
-
 	UPROPERTY(BlueprintAssignable)
 	FHPUpdateDelegate OnHPUpdate;
 
@@ -120,8 +103,8 @@ public:
 	UPROPERTY(BlueprintAssignable)
 	FNoParamDelegate OnDeath;
 
-	UPROPERTY(BlueprintAssignable)
-	FNoParamDelegate OnAttackMissed;
+	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+	FAttackMissDelegate OnAttackMissed;
 
 	UPROPERTY(BlueprintAssignable)
 	FNoParamDelegate OnTalentArtRecastComplete;

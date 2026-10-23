@@ -11,14 +11,10 @@ UGEEC_Damage::UGEEC_Damage()
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Defence, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, GuardRate, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Miss, Source, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Hit, Source, true);
 
 	RelevantAttributesToCapture.Add(DefenceDef);
 	RelevantAttributesToCapture.Add(GuardRateDef);
 	RelevantAttributesToCapture.Add(IncomingDamageDef);
-	RelevantAttributesToCapture.Add(MissDef);
-	RelevantAttributesToCapture.Add(HitDef);
 }
 
 void UGEEC_Damage::Execute_Implementation(
@@ -52,14 +48,6 @@ void UGEEC_Damage::Execute_Implementation(
 		guard = 1.f;
 	}
 
-	//�������
-	//��ł����Ə���������
-	if (false) 
-	{
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(MissProperty, EGameplayModOp::Override, 1.f));
-		return;
-	}
-
 	//�X�L���Ƃ��Ń_���[�W�����銄��
 	//�������
 	float SkillReduce = 1.0f;
@@ -69,5 +57,4 @@ void UGEEC_Damage::Execute_Implementation(
 
 	//�_���[�W���^��
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingDamageProperty, EGameplayModOp::Override, TrueDamage));
-	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(HitProperty, EGameplayModOp::Override, TrueDamage));
 }

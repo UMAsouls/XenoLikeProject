@@ -22,8 +22,10 @@ class XENOLIKEPROJECT_API UGEEC_Attack : public UGameplayEffectExecutionCalculat
 	
 	DECLARE_ATTRIBUTE_CAPTUREDEF(Defence)
 	DECLARE_ATTRIBUTE_CAPTUREDEF(GuardRate)
-	DECLARE_ATTRIBUTE_CAPTUREDEF(Miss)
-	DECLARE_ATTRIBUTE_CAPTUREDEF(Hit)
+	
+	FGameplayTag AutoAttackKindTag;
+	FGameplayTag ArtAttackKindTag;
+
 	
 
 	virtual void Execute_Implementation(

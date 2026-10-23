@@ -15,8 +15,6 @@ UGEEC_Attack::UGEEC_Attack()
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Defence, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, GuardRate, Target, true);
 	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, IncomingDamage, Target, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Miss, Source, true);
-	DEFINE_ATTRIBUTE_CAPTUREDEF(UXenoCharacterAttributeSet, Hit, Source, true);
 
 	RelevantAttributesToCapture.Add(PowerDef);
 	RelevantAttributesToCapture.Add(CriticalRateDef);
@@ -25,8 +23,12 @@ UGEEC_Attack::UGEEC_Attack()
 	RelevantAttributesToCapture.Add(DefenceDef);
 	RelevantAttributesToCapture.Add(GuardRateDef);
 	RelevantAttributesToCapture.Add(IncomingDamageDef);
-	RelevantAttributesToCapture.Add(MissDef);
-	RelevantAttributesToCapture.Add(HitDef);
+	
+	AutoAttackKindTag = FGameplayTag::RequestGameplayTag("Attack.Kind.AutoAttack");
+	ArtAttackKindTag = FGameplayTag::RequestGameplayTag("Attack.Kind.Art");
+	
+	ValidTransientAggregatorIdentifiers.AddTag(AutoAttackKindTag);
+	ValidTransientAggregatorIdentifiers.AddTag(ArtAttackKindTag);
 	
 }
 
@@ -62,28 +64,40 @@ void UGEEC_Attack::Execute_Implementation(
 	
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(DefenceDef, EvaluationParameters, Defence);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GuardRateDef, EvaluationParameters, GuardRate);
+	
+	TArray<FGameplayTag> OutputTags;
+	
+	// オートアタックかどうかをTransientVariableで評価
+	float IsAutoAttack;
+	ExecutionParams.AttemptCalculateTransientAggregatorMagnitude(AutoAttackKindTag,EvaluationParameters,IsAutoAttack);
+	float IsArtAttack;
+	ExecutionParams.AttemptCalculateTransientAggregatorMagnitude(ArtAttackKindTag,EvaluationParameters,IsArtAttack);
+	
+	if (IsArtAttack >= 1.f)
+	{
+		OutputTags.Add(ArtAttackKindTag);
+	}
+	else
+	{
+		OutputTags.Add(AutoAttackKindTag);
+	}
 
 	FRandomStream rand;
 	rand.GenerateNewSeed();
+	
 
 	float CriticalBonus = 1.f;
 	if (CriticalRate >= rand.GetFraction()) {
 		CriticalBonus = 1.3f;
+		OutputTags.Add(FGameplayTag::RequestGameplayTag(FName("Attack.Result.Critical")));
 	}
 	
 	//�K�[�h��guardRate�̊m���Ŕ���������
-	float guard = 0.4f;
-	if (GuardRate < rand.GetFraction()) 
+	float guard = 1.f;
+	if (GuardRate >= rand.GetFraction()) 
 	{
-		guard = 1.f;
-	}
-
-	//�������
-	//��ł����Ə���������
-	if (false) 
-	{
-		OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(MissProperty, EGameplayModOp::Override, 1.f));
-		return;
+		guard = 0.4f;
+		OutputTags.Add(FGameplayTag::RequestGameplayTag(FName("Attack.Result.Guard")));
 	}
 
 	//�X�L���Ƃ��Ń_���[�W�����銄��
@@ -92,7 +106,7 @@ void UGEEC_Attack::Execute_Implementation(
 	
 	float Damage = FMath::Max(Power-Defence, 1.0f) * FMath::Max(Power/30.f,1.0f)
 		* (1 + rand.GetFraction()*0.5f)  
-		* CriticalBonus * ArtDamageBonus 
+		* CriticalBonus * ArtDamageBonus
 		* guard * SkillReduce;
 
 	//�_���[�W���^��
@@ -105,7 +119,7 @@ void UGEEC_Attack::Execute_Implementation(
 		if (const UXenoCharacterAttributeSet* SourceSet =
 				SourceASC->GetSet<UXenoCharacterAttributeSet>())
 		{
-			SourceSet->OnAttackHit.Broadcast(Damage);
+			SourceSet->OnAttackHit.Broadcast(Damage, FGameplayTagContainer::CreateFromArray(OutputTags));
 		}
 	}
 }

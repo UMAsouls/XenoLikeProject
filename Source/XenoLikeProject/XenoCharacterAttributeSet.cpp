@@ -15,9 +15,7 @@ UXenoCharacterAttributeSet::UXenoCharacterAttributeSet()
 	Speed = 100.f;
 	CriticalRate = 0.f;
 	GuardRate = 0.f;
-	ArtDamageBonus = 1.f;
 	ArtHealBonus = 1.f;
-	DamageAdjuster = 1.f;
 	
 	AutoAttackCooldownTime = 0.5f;
 	AutoAttackSpeed = 1.0f;
@@ -40,11 +38,6 @@ void UXenoCharacterAttributeSet::SetStatus(FStatusStruct Status)
 
 }
 
-float UXenoCharacterAttributeSet::CalculateDamage() const
-{
-	return GetIncomingDamage()*GetDamageAdjuster()*GetArtDamageBonus();
-}
-
 void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffectModCallbackData& Data)
 {
 	Super::PostGameplayEffectExecute(Data);
@@ -52,27 +45,13 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	TObjectPtr<AActor> TargetActor = Data.Target.GetAvatarActor();
 	TObjectPtr<AActor> SourceActor = Data.EffectSpec.GetContext().GetOriginalInstigator();
 
-	if (Data.EvaluatedData.Attribute == GetMissAttribute()) 
-	{
-		SetMiss(0);
-		OnAttackMissed.Broadcast();
-	}
-
-	if (Data.EvaluatedData.Attribute == GetHitAttribute())
-	{
-		OnAttackHit.Broadcast(GetHit());
-		SetHit(0);
-	}
-
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
 	{
 		
-		float damage = CalculateDamage();
+		float damage = GetIncomingDamage();
 		SetHp(FMath::Clamp(GetHp()-damage, 0, GetMaxHp()));
 
 		SetIncomingDamage(0);
-		SetDamageAdjuster(1);
-		SetArtDamageBonus(1);
 
 		OnDamage.Broadcast(damage, SourceActor);
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
@@ -81,7 +60,7 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 	
 	if (Data.EvaluatedData.Attribute == GetIncomingHealAttribute())
 	{
-		float heal = GetIncomingHeal()*GetArtHealBonus();
+		float heal = GetIncomingHeal();
 		SetHp(FMath::Clamp(GetHp()+heal, 0, GetMaxHp()));
 		
 		SetIncomingHeal(0);
