@@ -34,8 +34,11 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, Category = "BattleSubsystem")
 	FOnBattleEnd OnBattleEnd;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "BattleSubsystem")
+	bool IsBattle = false;
 
 private:
 	
-	bool IsBattle = false;
+	
 };

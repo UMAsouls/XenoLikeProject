@@ -20,16 +20,16 @@ class XENOLIKEPROJECT_API UPartySubsystem : public UGameInstanceSubsystem
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FDrawWeaponDelegate DrawWeaponDelegate;
 	
-	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FUnEquipDelegate UnEquipDelegate;
 
-	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FLeaderChangeDelegate LeaderChangeDelegate;
 
-	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FPartyExtincutionDelegate PartyExtincutionDelegate;
 
 	virtual void Initialize(FSubsystemCollectionBase& Collection) override;

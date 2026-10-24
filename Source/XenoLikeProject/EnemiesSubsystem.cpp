@@ -6,6 +6,8 @@
 
 void UEnemiesSubsystem::AddEnemy(AActor* Enemy) {
 	Enemies.Add(TObjectPtr<AActor>(Enemy));
+	UBattleSubsystem* bs = GetGameInstance()->GetSubsystem<UBattleSubsystem>();
+	bs->BattleStart();
 }
 
 void UEnemiesSubsystem::RemoveEnemy(AActor* Enemy) {
