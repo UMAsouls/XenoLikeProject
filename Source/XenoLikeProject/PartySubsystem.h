@@ -8,6 +8,7 @@
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDrawWeaponDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUnEquipDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLeaderChangeDelegate, AActor*, Leader);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPartyExtincutionDelegate);
 /**
@@ -21,6 +22,9 @@ class XENOLIKEPROJECT_API UPartySubsystem : public UGameInstanceSubsystem
 public:
 	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
 	FDrawWeaponDelegate DrawWeaponDelegate;
+	
+	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
+	FUnEquipDelegate UnEquipDelegate;
 
 	UPROPERTY(BlueprintAssignable, Category = "PartySubsystem|Delegate")
 	FLeaderChangeDelegate LeaderChangeDelegate;
