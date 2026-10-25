@@ -10,18 +10,24 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEnemiesExtincutionDelegate);
 
 /**
- * “G‚ª‘S–Å‚µ‚½‚©‚Ç‚¤‚©Šm”F‚·‚é‚½‚ß‚ÌƒNƒ‰ƒX
- * ‚Æ‚è‚ ‚¦‚¸“G‘S–Å=GameClear‚Ìˆ—‚ğs‚¤‚½‚ß‚Ì‚à‚ÌiƒNƒŠƒAğŒ‚ªˆá‚­‚È‚ê‚Î‚¢‚ç‚È‚­‚È‚éj
+ * ï¿½Gï¿½ï¿½ï¿½Sï¿½Å‚ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç‚ï¿½ï¿½ï¿½ï¿½mï¿½Fï¿½ï¿½ï¿½é‚½ï¿½ß‚ÌƒNï¿½ï¿½ï¿½X
+ * ï¿½Æ‚è‚ ï¿½ï¿½ï¿½ï¿½ï¿½Gï¿½Sï¿½ï¿½=GameClearï¿½Ìï¿½ï¿½ï¿½ï¿½ï¿½ï¿½sï¿½ï¿½ï¿½ï¿½ï¿½ß‚Ì‚ï¿½ï¿½Ìiï¿½Nï¿½ï¿½ï¿½Aï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½á‚­ï¿½È‚ï¿½Î‚ï¿½ï¿½ï¿½È‚ï¿½ï¿½È‚ï¿½j
  */
 UCLASS()
-class XENOLIKEPROJECT_API UCheckEnemiesExtincutionSubsystem : public UEnemiesSubsystem
+class XENOLIKEPROJECT_API UCheckEnemiesExtincutionSubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
 public:
-	void RemoveEnemy(AActor* Enemy) override;
+	UFUNCTION(BlueprintCallable)
+	void AddEnemy(AActor* Enemy);
+	
+	UFUNCTION(BlueprintCallable)
+	void RemoveEnemy(AActor* Enemy);
 
 	UPROPERTY(BlueprintAssignable)
 	FEnemiesExtincutionDelegate OnExtincution;
+	
+	TArray<TObjectPtr<AActor>> Enemies;
 	
 };

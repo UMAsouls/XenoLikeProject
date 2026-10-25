@@ -89,3 +89,21 @@ void UPartySubsystem::SubtractDeath(AActor* Member)
 	DeathCount--;
 	if (Leader == Member) LeaderDeath = false;
 }
+
+void UPartySubsystem::AddPartyGage(float Gage)
+{
+	PartyGage = FMath::Clamp(Gage+PartyGage, 0, 1);
+}
+
+bool UPartySubsystem::UsePartyGage(int count)
+{
+	if (PartyGage < count*OnePartyGage)
+	{
+		return  false;
+	}
+	else
+	{
+		PartyGage -= count*OnePartyGage;
+		return true;
+	}
+}

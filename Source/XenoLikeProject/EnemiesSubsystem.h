@@ -17,7 +17,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category="EnemiesSubsystem")
 	void AddEnemy(AActor* Enemy);
 
-	UFUNCTION(BlueprintCallable, Category="EnemiesSubsystem")
+	UFUNCTION(Category="EnemiesSubsystem")
 	virtual void RemoveEnemy(AActor* Enemy);
 	
 	/*

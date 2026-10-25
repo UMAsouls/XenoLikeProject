@@ -64,9 +64,24 @@ public:
 
 	void UpdateLeader();
 	void UpdatePartyMemberCount();
+	
+	UPROPERTY(BlueprintReadOnly, Category = "PartySubsystem|Gage")
+	float PartyGage = 0;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "PartySubsystem|Gage")
+	float OnePartyGage = 0.33f;
+	
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Gage")
+	void AddPartyGage(float Gage);
+	
+	// 1パーティゲージ分を消費
+	// 消費できなかったらfalse
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Gage")
+	bool UsePartyGage(int count);
 
 private:
 	const int LeaderIdx = 0;
+	
 
 	UPROPERTY(VisibleDefaultsOnly, Category =  "PartySubsystem|Party")
 	TArray<TObjectPtr<AActor>> Party =
@@ -79,6 +94,5 @@ private:
 
 	int DeathCount = 0;
 	int PartyMemberCount = 0;
-	float PartyGage = 0;
 	bool LeaderDeath = false;
 };

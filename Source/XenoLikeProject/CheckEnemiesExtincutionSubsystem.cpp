@@ -14,3 +14,6 @@ void UCheckEnemiesExtincutionSubsystem::RemoveEnemy(AActor* Enemy)
 	}
 }
 
+void UCheckEnemiesExtincutionSubsystem::AddEnemy(AActor* Enemy) {
+	Enemies.Add(TObjectPtr<AActor>(Enemy));
+}
