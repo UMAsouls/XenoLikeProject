@@ -12,7 +12,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDrawWeaponDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUnEquipDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLeaderChangeDelegate, AXenoLikeProjectCharacter*, Leader);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPartyExtincutionDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLeaderDeathDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMemberDelegate);
 /**
  * 
  */
@@ -32,7 +32,13 @@ public:
 	FLeaderChangeDelegate LeaderChangeDelegate;
 	
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
-	FLeaderDeathDelegate LeaderDeathDelegate;
+	FMemberDelegate LeaderDeathDelegate;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
+	FMemberDelegate MemberDeathDelegate;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
+	FMemberDelegate MemberRebirthDelegate;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FPartyExtincutionDelegate PartyExtincutionDelegate;
@@ -54,6 +60,9 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
 	TArray<AXenoLikeProjectCharacter*> GetPartyMembers();
+	
+	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
+	TArray<AXenoLikeProjectCharacter*> GetAlivePartyMembers();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
 	AXenoLikeProjectCharacter* GetLeader();

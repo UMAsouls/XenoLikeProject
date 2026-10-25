@@ -19,6 +19,7 @@ void UPartySubsystem::SetPartyMember(int Idx, AXenoLikeProjectCharacter* Member)
 
 	Party[Idx] = TObjectPtr<AXenoLikeProjectCharacter>(Member);
 	UpdateLeader();
+	UpdatePartyMemberCount();
 }
 
 void UPartySubsystem::SwapPartyMember(int Idx1, int Idx2)
@@ -29,6 +30,9 @@ void UPartySubsystem::SwapPartyMember(int Idx1, int Idx2)
 	auto m = Party[Idx1];
 	Party[Idx1] = Party[Idx2];
 	Party[Idx2] = m;
+	
+	UpdateLeader();
+	UpdatePartyMemberCount();
 }
 
 AXenoLikeProjectCharacter* UPartySubsystem::GetPartyMember(int Idx)
@@ -40,11 +44,21 @@ TArray<AXenoLikeProjectCharacter*> UPartySubsystem::GetPartyMembers()
 {
 	TArray<AXenoLikeProjectCharacter*> result;
 	for (const auto m : Party) {
+		if (IsValid(m)) result.Add(m);
+	}
+	
+	return  result;
+}
+TArray<AXenoLikeProjectCharacter*> UPartySubsystem::GetAlivePartyMembers()
+{
+	TArray<AXenoLikeProjectCharacter*> result;
+	for (const auto m : Party) {
 		if (IsValid(m) && !m->IsDeath()) result.Add(m);
 	}
 	
 	return  result;
 }
+
 
 AXenoLikeProjectCharacter* UPartySubsystem::GetLeader()
 {
@@ -85,16 +99,19 @@ void UPartySubsystem::AddDeath(AXenoLikeProjectCharacter* Member)
 		LeaderDeathDelegate.Broadcast();
 	}
 
-	if ((LeaderDeath && PartyGage < 1) || DeathCount >= PartyMemberCount)
+	if ((LeaderDeath && PartyGage < OnePartyGage) || DeathCount >= PartyMemberCount)
 	{
 		PartyExtincutionDelegate.Broadcast();
 	}
+	
+	MemberDeathDelegate.Broadcast();
 }
 
 void UPartySubsystem::SubtractDeath(AXenoLikeProjectCharacter* Member)
 {
 	DeathCount--;
 	if (Leader == Member) LeaderDeath = false;
+	MemberRebirthDelegate.Broadcast();
 }
 
 void UPartySubsystem::AddPartyGage(float Gage)
