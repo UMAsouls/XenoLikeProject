@@ -6,6 +6,7 @@
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "BattleSubsystem.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBattleStart);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBattleEnd);
 
 /**
@@ -34,6 +35,9 @@ public:
 	
 	UPROPERTY(BlueprintAssignable, Category = "BattleSubsystem")
 	FOnBattleEnd OnBattleEnd;
+	
+	UPROPERTY(BlueprintAssignable, Category = "BattleSubsystem")
+	FOnBattleStart OnBattleStart;
 	
 	UPROPERTY(BlueprintReadOnly, Category = "BattleSubsystem")
 	bool IsBattle = false;

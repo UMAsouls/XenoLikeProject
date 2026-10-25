@@ -16,6 +16,7 @@ void UBattleSubsystem::Deinitialize()
 void UBattleSubsystem::BattleStart() 
 {
 	IsBattle = true;
+	OnBattleStart.Broadcast();
 }
 
 void UBattleSubsystem::BattleEnd()

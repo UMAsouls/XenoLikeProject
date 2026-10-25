@@ -13,11 +13,11 @@ void UPartySubsystem::Deinitialize()
 
 }
 
-void UPartySubsystem::SetPartyMember(int Idx, AActor* Member)
+void UPartySubsystem::SetPartyMember(int Idx, AXenoLikeProjectCharacter* Member)
 {
 	if (Idx < 0 or Idx >= Party.Num()) return;
 
-	Party[Idx] = TObjectPtr<AActor>(Member);
+	Party[Idx] = TObjectPtr<AXenoLikeProjectCharacter>(Member);
 	UpdateLeader();
 }
 
@@ -31,23 +31,29 @@ void UPartySubsystem::SwapPartyMember(int Idx1, int Idx2)
 	Party[Idx2] = m;
 }
 
-AActor* UPartySubsystem::GetPartyMember(int Idx)
+AXenoLikeProjectCharacter* UPartySubsystem::GetPartyMember(int Idx)
 {
 	return Party[Idx];
 }
 
-TArray<AActor*> UPartySubsystem::GetPartyMembers()
+TArray<AXenoLikeProjectCharacter*> UPartySubsystem::GetPartyMembers()
 {
-	return Party;
+	TArray<AXenoLikeProjectCharacter*> result;
+	for (const auto m : Party) {
+		if (IsValid(m) && !m->IsDeath()) result.Add(m);
+	}
+	
+	return  result;
 }
 
-AActor* UPartySubsystem::GetLeader()
+AXenoLikeProjectCharacter* UPartySubsystem::GetLeader()
 {
 	return Leader;
 }
 
 int UPartySubsystem::GetPartyMemberCount()
 {
+	UpdatePartyMemberCount();
 	return PartyMemberCount;
 }
 
@@ -61,11 +67,8 @@ void UPartySubsystem::UpdateLeader()
 
 void UPartySubsystem::UpdatePartyMemberCount()
 {
-	int count = 0;
-	for (const auto m : Party) {
-		if (m != nullptr) count++;
-	}
-	PartyMemberCount = count;
+	auto array = GetPartyMembers();
+	PartyMemberCount = array.Num();
 }
 
 void UPartySubsystem::DrawWeapon()
@@ -73,10 +76,14 @@ void UPartySubsystem::DrawWeapon()
 	DrawWeaponDelegate.Broadcast();
 }
 
-void UPartySubsystem::AddDeath(AActor* Member)
+void UPartySubsystem::AddDeath(AXenoLikeProjectCharacter* Member)
 {
 	DeathCount++;
-	if (Leader == Member) LeaderDeath = true;
+	if (Leader == Member)
+	{
+		LeaderDeath = true;
+		LeaderDeathDelegate.Broadcast();
+	}
 
 	if ((LeaderDeath && PartyGage < 1) || DeathCount >= PartyMemberCount)
 	{
@@ -84,7 +91,7 @@ void UPartySubsystem::AddDeath(AActor* Member)
 	}
 }
 
-void UPartySubsystem::SubtractDeath(AActor* Member)
+void UPartySubsystem::SubtractDeath(AXenoLikeProjectCharacter* Member)
 {
 	DeathCount--;
 	if (Leader == Member) LeaderDeath = false;

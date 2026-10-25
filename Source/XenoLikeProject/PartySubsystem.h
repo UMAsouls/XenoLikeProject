@@ -3,14 +3,16 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "XenoLikeProjectCharacter.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "PartySubsystem.generated.h"
 
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FDrawWeaponDelegate);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FUnEquipDelegate);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLeaderChangeDelegate, AActor*, Leader);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FLeaderChangeDelegate, AXenoLikeProjectCharacter*, Leader);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FPartyExtincutionDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FLeaderDeathDelegate);
 /**
  * 
  */
@@ -28,6 +30,9 @@ public:
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FLeaderChangeDelegate LeaderChangeDelegate;
+	
+	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
+	FLeaderDeathDelegate LeaderDeathDelegate;
 
 	UPROPERTY(BlueprintAssignable, BlueprintCallable, Category = "PartySubsystem|Delegate")
 	FPartyExtincutionDelegate PartyExtincutionDelegate;
@@ -39,28 +44,28 @@ public:
 	void DrawWeapon();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	void SetPartyMember(int Idx, AActor* Member);
+	void SetPartyMember(int Idx, AXenoLikeProjectCharacter* Member);
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
 	void SwapPartyMember(int Idx1, int Idx2);
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	AActor* GetPartyMember(int Idx);
+	AXenoLikeProjectCharacter* GetPartyMember(int Idx);
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	TArray<AActor*> GetPartyMembers();
+	TArray<AXenoLikeProjectCharacter*> GetPartyMembers();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	AActor* GetLeader();
+	AXenoLikeProjectCharacter* GetLeader();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
 	int GetPartyMemberCount();
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	void AddDeath(AActor* Member);
+	void AddDeath(AXenoLikeProjectCharacter* Member);
 
 	UFUNCTION(BlueprintCallable, Category = "PartySubsystem|Party")
-	void SubtractDeath(AActor* Member);
+	void SubtractDeath(AXenoLikeProjectCharacter* Member);
 
 	void UpdateLeader();
 	void UpdatePartyMemberCount();
@@ -84,13 +89,15 @@ private:
 	
 
 	UPROPERTY(VisibleDefaultsOnly, Category =  "PartySubsystem|Party")
-	TArray<TObjectPtr<AActor>> Party =
+	TArray<TObjectPtr<AXenoLikeProjectCharacter>> Party =
 	{
-		TObjectPtr<AActor>(), TObjectPtr<AActor>(), TObjectPtr<AActor>()
+		TObjectPtr<AXenoLikeProjectCharacter>(), 
+		TObjectPtr<AXenoLikeProjectCharacter>(), 
+		TObjectPtr<AXenoLikeProjectCharacter>()
 	};
 
 	UPROPERTY(VisibleDefaultsOnly, Category = "PartySubsystem|Party")
-	TObjectPtr<AActor> Leader;
+	TObjectPtr<AXenoLikeProjectCharacter> Leader;
 
 	int DeathCount = 0;
 	int PartyMemberCount = 0;

@@ -32,10 +32,11 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category="EnemiesSubsystem")
 	virtual void EscapeEnemy(AActor* Enemy);
+	
+	UPROPERTY(BlueprintReadOnly, Category="EnemiesSubsystem")
+	TArray<TObjectPtr<AActor>> Enemies;
 
 protected:
-	TArray<TObjectPtr<AActor>> Enemies;
-	
 	int DefeatCount = 0;
 	
 };

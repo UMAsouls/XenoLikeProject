@@ -43,5 +43,8 @@ public:
 	/** Handles move inputs from either controls or UI interfaces */
 	UFUNCTION(BlueprintCallable, Category="Input")
 	virtual void DoMove(float Right, float Forward);
+	
+	UFUNCTION(BlueprintCallable,BlueprintImplementableEvent, Category="Status")
+	bool IsDeath();
 };
 
