@@ -17,7 +17,7 @@
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float,HP);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDamageDelegate, float,Damage, AActor*,SourceActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttackMissDelegate,  FGameplayTagContainer, ResultTag);
-DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FAttackHitDelegate, float,Damage, FGameplayTagContainer, ResultTag);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttackHitDelegate, float,Damage, FGameplayTagContainer, ResultTag, AActor*, TargetActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoParamDelegate);
 /**
  * 

@@ -116,10 +116,14 @@ void UGEEC_Attack::Execute_Implementation(
 	if (UAbilitySystemComponent* SourceASC =
 		ExecutionParams.GetSourceAbilitySystemComponent())
 	{
+		
 		if (const UXenoCharacterAttributeSet* SourceSet =
 				SourceASC->GetSet<UXenoCharacterAttributeSet>())
 		{
-			SourceSet->OnAttackHit.Broadcast(Damage, FGameplayTagContainer::CreateFromArray(OutputTags));
+			if (AActor* TargetActor = ExecutionParams.GetTargetAbilitySystemComponent()->GetOwner())
+			{
+				SourceSet->OnAttackHit.Broadcast(Damage, FGameplayTagContainer::CreateFromArray(OutputTags), TargetActor);
+			}
 		}
 	}
 }
