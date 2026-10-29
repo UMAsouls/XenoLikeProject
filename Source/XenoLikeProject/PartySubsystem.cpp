@@ -99,7 +99,7 @@ void UPartySubsystem::AddDeath(AXenoLikeProjectCharacter* Member)
 		LeaderDeathDelegate.Broadcast();
 	}
 
-	if ((LeaderDeath && PartyGage < OnePartyGage) || DeathCount >= PartyMemberCount)
+	if ((LeaderDeath && (PartyGage < OnePartyGage)) || DeathCount >= GetPartyMemberCount())
 	{
 		PartyExtincutionDelegate.Broadcast();
 	}
