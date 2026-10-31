@@ -44,6 +44,12 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 
 	TObjectPtr<AActor> TargetActor = Data.Target.GetAvatarActor();
 	TObjectPtr<AActor> SourceActor = Data.EffectSpec.GetContext().GetOriginalInstigator();
+	
+	TObjectPtr<UAbilitySystemComponent> SourceASC = Data.EffectSpec.GetContext().GetOriginalInstigatorAbilitySystemComponent();
+	TObjectPtr<UAbilitySystemComponent> TargetASC = GetOwningAbilitySystemComponent();
+	
+	
+	auto LastStandTag = FGameplayTag::RequestGameplayTag(FName("Chara.Buff.LastStand"));
 
 	if (Data.EvaluatedData.Attribute == GetIncomingDamageAttribute()) 
 	{
@@ -54,8 +60,19 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 		SetIncomingDamage(0);
 
 		OnDamage.Broadcast(damage, SourceActor);
+		if (GetHp() <= 0.f)
+		{
+			if (TargetASC->HasMatchingGameplayTag(LastStandTag))
+			{
+				SetHp(FMath::Clamp(GetMaxHp()*0.6f, 0, GetMaxHp()));
+				TargetASC->RemoveActiveEffectsWithGrantedTags(LastStandTag.GetSingleTagContainer());
+			}
+			else
+			{
+				OnDeath.Broadcast();
+			}
+		}
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
-		if (GetHp() <= 0.f) OnDeath.Broadcast();
 	}
 	
 	if (Data.EvaluatedData.Attribute == GetIncomingHealAttribute())
