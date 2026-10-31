@@ -20,14 +20,23 @@ class XENOLIKEPROJECT_API UCheckEnemiesExtincutionSubsystem : public UGameInstan
 
 public:
 	UFUNCTION(BlueprintCallable)
+	void SetExtinctionEnemyNum(int Num);
+	
+	UFUNCTION(BlueprintCallable)
 	void AddEnemy(AActor* Enemy);
 	
 	UFUNCTION(BlueprintCallable)
-	void RemoveEnemy(AActor* Enemy);
+	void RemoveEnemy(AActor* Enemy, int Point = 1);
 
 	UPROPERTY(BlueprintAssignable)
 	FEnemiesExtincutionDelegate OnExtincution;
 	
 	TArray<TObjectPtr<AActor>> Enemies;
+	
+	UPROPERTY(BlueprintReadOnly)
+	int DefeatNum = 0;
+	
+	UPROPERTY(BlueprintReadOnly)
+	int ExtinctionEnemyNum = 5;
 	
 };

@@ -26,6 +26,9 @@ void UGEEC_Heal::Execute_Implementation(
 
 	const FGameplayTagContainer* SourceTags = spec.CapturedSourceTags.GetAggregatedTags();
 	const FGameplayTagContainer* TargetTags = spec.CapturedTargetTags.GetAggregatedTags();
+	
+	FGameplayTag ArtBonusTag = FGameplayTag::RequestGameplayTag(FName("Effect.Heal.ArtBonus"));
+	float HealBonus = spec.GetSetByCallerMagnitude(ArtBonusTag, false, 1.0f);
 
 	FAggregatorEvaluateParameters EvaluationParameters;
 	EvaluationParameters.SourceTags = SourceTags;
@@ -37,7 +40,7 @@ void UGEEC_Heal::Execute_Implementation(
 	FRandomStream rand;
 	rand.GenerateNewSeed();
 	
-	float heal = HealPower * (1 + rand.GetFraction() * 0.1f);
+	float heal = HealPower * (1 + rand.GetFraction() * 0.5f) * HealBonus;
 	
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingHealProperty, EGameplayModOp::Additive, heal));
 }

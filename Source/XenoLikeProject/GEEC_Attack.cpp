@@ -4,7 +4,6 @@
 #include "GEEC_Attack.h"
 #include "XenoCharacterAttributeSet.h"
 #include "AbilitySystemComponent.h"
-#include "Tests/AutomationEditorCommon.h"
 
 UGEEC_Attack::UGEEC_Attack()
 {
@@ -26,9 +25,10 @@ UGEEC_Attack::UGEEC_Attack()
 	
 	AutoAttackKindTag = FGameplayTag::RequestGameplayTag("Attack.Kind.AutoAttack");
 	ArtAttackKindTag = FGameplayTag::RequestGameplayTag("Attack.Kind.Art");
-	
+#if WITH_EDITORONLY_DATA
 	ValidTransientAggregatorIdentifiers.AddTag(AutoAttackKindTag);
 	ValidTransientAggregatorIdentifiers.AddTag(ArtAttackKindTag);
+#endif
 	
 }
 
@@ -57,6 +57,9 @@ void UGEEC_Attack::Execute_Implementation(
 	
 	FGameplayTag ArtBonusTag = FGameplayTag::RequestGameplayTag(FName("Effect.Damage.ArtBonus"));
 	ArtDamageBonus = spec.GetSetByCallerMagnitude(ArtBonusTag, false, 1.0f);
+	
+	FGameplayTag ExtraBonusTag = FGameplayTag::RequestGameplayTag(FName("Effect.Damage.ExtraBonus"));
+	float ExtraDamageBonus = spec.GetSetByCallerMagnitude(ExtraBonusTag, false, 0.0f);
 
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(PowerDef, EvaluationParameters, Power);
 	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(CriticalRateDef, EvaluationParameters, CriticalRate);
@@ -68,9 +71,9 @@ void UGEEC_Attack::Execute_Implementation(
 	TArray<FGameplayTag> OutputTags;
 	
 	// オートアタックかどうかをTransientVariableで評価
-	float IsAutoAttack;
+	float IsAutoAttack = 0.f;
 	ExecutionParams.AttemptCalculateTransientAggregatorMagnitude(AutoAttackKindTag,EvaluationParameters,IsAutoAttack);
-	float IsArtAttack;
+	float IsArtAttack = 0.f;
 	ExecutionParams.AttemptCalculateTransientAggregatorMagnitude(ArtAttackKindTag,EvaluationParameters,IsArtAttack);
 	
 	if (IsArtAttack >= 1.f)
@@ -84,7 +87,6 @@ void UGEEC_Attack::Execute_Implementation(
 
 	FRandomStream rand;
 	rand.GenerateNewSeed();
-	
 
 	float CriticalBonus = 1.f;
 	if (CriticalRate >= rand.GetFraction()) {
@@ -99,6 +101,15 @@ void UGEEC_Attack::Execute_Implementation(
 		guard = 0.4f;
 		OutputTags.Add(FGameplayTag::RequestGameplayTag(FName("Attack.Result.Guard")));
 	}
+	
+	if (ExtraDamageBonus >= 1.f)
+	{
+		OutputTags.Add(FGameplayTag::RequestGameplayTag(FName("Attack.Result.ExtraBonus")));
+	}
+	else
+	{
+		ExtraDamageBonus = 1.f;
+	}
 
 	//�X�L���Ƃ��Ń_���[�W�����銄��
 	//�������
@@ -106,7 +117,7 @@ void UGEEC_Attack::Execute_Implementation(
 	
 	float Damage = FMath::Max(Power-Defence, 1.0f) * FMath::Max(Power/30.f,1.0f)
 		* (1 + rand.GetFraction()*0.5f)  
-		* CriticalBonus * ArtDamageBonus
+		* CriticalBonus * ArtDamageBonus * ExtraDamageBonus
 		* guard * SkillReduce;
 
 	//�_���[�W���^��
