@@ -6,7 +6,7 @@
 
 void UEnemiesSubsystem::AddEnemy(AActor* Enemy) {
 	Enemies.Add(TObjectPtr<AActor>(Enemy));
-	UBattleSubsystem* bs = GetGameInstance()->GetSubsystem<UBattleSubsystem>();
+	UBattleSubsystem* bs = GetWorld()->GetSubsystem<UBattleSubsystem>();
 	bs->BattleStart();
 }
 
@@ -25,7 +25,7 @@ void UEnemiesSubsystem::DefeatEnemy(AActor* Enemy)
 	DefeatCount++;
 	if (Enemies.Num() == 0)
 	{
-		UBattleSubsystem* bs = GetGameInstance()->GetSubsystem<UBattleSubsystem>();
+		UBattleSubsystem* bs = GetWorld()->GetSubsystem<UBattleSubsystem>();
 		if (bs) bs->BattleWin();
 		DefeatCount = 0;
 	}
@@ -36,7 +36,7 @@ void UEnemiesSubsystem::EscapeEnemy(AActor* Enemy)
 	RemoveEnemy(Enemy);
 	if (Enemies.Num() == 0)
 	{
-		UBattleSubsystem* bs = GetGameInstance()->GetSubsystem<UBattleSubsystem>();
+		UBattleSubsystem* bs = GetWorld()->GetSubsystem<UBattleSubsystem>();
 		if (bs) bs->BattleEnd();
 		DefeatCount = 0;
 	}

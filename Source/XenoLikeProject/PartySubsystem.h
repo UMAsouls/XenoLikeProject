@@ -17,7 +17,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FMemberDelegate);
  * 
  */
 UCLASS()
-class XENOLIKEPROJECT_API UPartySubsystem : public UGameInstanceSubsystem
+class XENOLIKEPROJECT_API UPartySubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 

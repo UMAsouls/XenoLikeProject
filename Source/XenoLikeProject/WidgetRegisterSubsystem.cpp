@@ -3,6 +3,11 @@
 
 #include "WidgetRegisterSubsystem.h"
 
+void UWidgetRegisterSubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+    ResetWidget();
+}
+
 void UWidgetRegisterSubsystem::RegisterWidget(TSubclassOf<UUserWidget> WidgetClass, UUserWidget* Widget)
 {
 	WidgetMap.Add(WidgetClass, Widget);

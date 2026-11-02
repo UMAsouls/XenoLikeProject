@@ -14,7 +14,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FEnemiesExtincutionDelegate);
  * �Ƃ肠�����G�S��=GameClear�̏������s�����߂̂��́i�N���A�������Ⴍ�Ȃ�΂���Ȃ��Ȃ�j
  */
 UCLASS()
-class XENOLIKEPROJECT_API UCheckEnemiesExtincutionSubsystem : public UGameInstanceSubsystem
+class XENOLIKEPROJECT_API UCheckEnemiesExtincutionSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 

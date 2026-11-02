@@ -11,37 +11,40 @@
  * 
  */
 UCLASS()
-class XENOLIKEPROJECT_API UWidgetRegisterSubsystem : public UGameInstanceSubsystem
+class XENOLIKEPROJECT_API UWidgetRegisterSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 
 public:
+	
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
+	
 	/*
-	* @brief w’è‚µ‚½ƒNƒ‰ƒX‚ÉŠY“–‚·‚éwidget‚ğ“o˜^‚·‚é
+	* @brief ï¿½wï¿½è‚µï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½ÉŠYï¿½ï¿½ï¿½ï¿½ï¿½ï¿½widgetï¿½ï¿½oï¿½^ï¿½ï¿½ï¿½ï¿½
 	* 
-	* @param WidgetClass ƒNƒ‰ƒX
-	* @param Widget ƒEƒBƒWƒFƒbƒg–{‘Ì
+	* @param WidgetClass ï¿½Nï¿½ï¿½ï¿½X
+	* @param Widget ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½{ï¿½ï¿½
 	*/
 	UFUNCTION(BlueprintCallable)
 	void RegisterWidget(TSubclassOf<UUserWidget> WidgetClass, UUserWidget* Widget);
 
 	/*
-	* @brief w’è‚µ‚½ƒNƒ‰ƒX‚Å“o˜^‚³‚ê‚½ƒEƒBƒWƒFƒbƒg‚ğæ“¾‚·‚é	
-	* Œã‚Å‚»‚ÌƒNƒ‰ƒX‚ÉƒLƒƒƒXƒg‚Å‚«‚é
-	* @param WidgetClass w’èƒNƒ‰ƒX
+	* @brief ï¿½wï¿½è‚µï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Å“oï¿½^ï¿½ï¿½ï¿½ê‚½ï¿½Eï¿½Bï¿½Wï¿½Fï¿½bï¿½gï¿½ï¿½ï¿½æ“¾ï¿½ï¿½ï¿½ï¿½	
+	* ï¿½ï¿½Å‚ï¿½ï¿½ÌƒNï¿½ï¿½ï¿½Xï¿½ÉƒLï¿½ï¿½ï¿½Xï¿½gï¿½Å‚ï¿½ï¿½ï¿½
+	* @param WidgetClass ï¿½wï¿½ï¿½Nï¿½ï¿½ï¿½X
 	*/
 	UFUNCTION(BlueprintCallable)
 	UUserWidget* GetWidget(TSubclassOf<UUserWidget> WidgetClass) const;
 	
 	/*
-	* @brief w’è‚µ‚½ƒNƒ‰ƒX‚Å“o˜^‚³‚ê‚½widget‚ğíœ‚·‚é
-	* @param WidgetClass w’èƒNƒ‰ƒX
+	* @brief ï¿½wï¿½è‚µï¿½ï¿½ï¿½Nï¿½ï¿½ï¿½Xï¿½Å“oï¿½^ï¿½ï¿½ï¿½ê‚½widgetï¿½ï¿½ï¿½íœï¿½ï¿½ï¿½ï¿½
+	* @param WidgetClass ï¿½wï¿½ï¿½Nï¿½ï¿½ï¿½X
 	*/
 	UFUNCTION(BlueprintCallable)
 	void RemoveWidget(TSubclassOf<UUserWidget> WidgetClass);
 	
 	/*
-	* @brief ‘S‚Ä‚Ìwidget‚ğ–³‚­‚·(ƒŠƒZƒbƒg‚·‚é)
+	* @brief ï¿½Sï¿½Ä‚ï¿½widgetï¿½ğ–³‚ï¿½ï¿½ï¿½(ï¿½ï¿½ï¿½Zï¿½bï¿½gï¿½ï¿½ï¿½ï¿½)
 	*/
 	UFUNCTION(BlueprintCallable)
 	void ResetWidget();

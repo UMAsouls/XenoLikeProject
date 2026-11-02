@@ -13,7 +13,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnBattleEnd);
  * 
  */
 UCLASS()
-class XENOLIKEPROJECT_API UBattleSubsystem : public UGameInstanceSubsystem
+class XENOLIKEPROJECT_API UBattleSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 

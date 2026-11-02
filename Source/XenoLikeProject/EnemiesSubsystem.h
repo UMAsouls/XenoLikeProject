@@ -10,7 +10,7 @@
  * 
  */
 UCLASS()
-class XENOLIKEPROJECT_API UEnemiesSubsystem : public UGameInstanceSubsystem
+class XENOLIKEPROJECT_API UEnemiesSubsystem : public UWorldSubsystem
 {
 	GENERATED_BODY()
 public:
