@@ -81,8 +81,8 @@ void UXenoCharacterAttributeSet::PostGameplayEffectExecute(const FGameplayEffect
 		SetHp(FMath::Clamp(GetHp()+heal, 0, GetMaxHp()));
 		
 		SetIncomingHeal(0);
-		SetArtHealBonus(1);
 		
+		OnHeal.Broadcast(heal);
 		OnHPUpdate.Broadcast(GetMaxHp(), GetHp());
 	}
 

@@ -116,7 +116,7 @@ void UGEEC_Attack::Execute_Implementation(
 	float SkillReduce = 1.0f;
 	
 	float Damage = FMath::Max(Power-Defence, 1.0f) * FMath::Max(Power/30.f,1.0f)
-		* (1 + rand.GetFraction()*0.5f)  
+		* (1 + rand.GetFraction()*0.3f)  
 		* CriticalBonus * ArtDamageBonus * ExtraDamageBonus
 		* guard * SkillReduce;
 

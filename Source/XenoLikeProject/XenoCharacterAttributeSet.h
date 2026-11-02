@@ -18,6 +18,7 @@ DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FHPUpdateDelegate,float,MaxHP,float
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_TwoParams(FDamageDelegate, float,Damage, AActor*,SourceActor);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FAttackMissDelegate,  FGameplayTagContainer, ResultTag);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE_ThreeParams(FAttackHitDelegate, float,Damage, FGameplayTagContainer, ResultTag, AActor*, TargetActor);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FHealDelegate,float,Heal);
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNoParamDelegate);
 /**
  * 
@@ -111,4 +112,7 @@ public:
 
 	UPROPERTY(BlueprintAssignable)
 	FAttackHitDelegate OnAttackHit;
+	
+	UPROPERTY(BlueprintAssignable)
+	FHealDelegate OnHeal;
 };

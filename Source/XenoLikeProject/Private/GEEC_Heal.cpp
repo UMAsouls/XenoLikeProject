@@ -40,7 +40,7 @@ void UGEEC_Heal::Execute_Implementation(
 	FRandomStream rand;
 	rand.GenerateNewSeed();
 	
-	float heal = HealPower * (1 + rand.GetFraction() * 0.5f) * HealBonus;
+	float heal = HealPower * (1 + rand.GetFraction() * 0.3f) * HealBonus;
 	
 	OutExecutionOutput.AddOutputModifier(FGameplayModifierEvaluatedData(IncomingHealProperty, EGameplayModOp::Additive, heal));
 }
